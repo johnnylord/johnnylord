@@ -1,0 +1,6 @@
+# Production purpose
+__pycache__/
+media/
+
+# Development purpose
+db.sqlite3
