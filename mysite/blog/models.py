@@ -101,6 +101,16 @@ class Post(models.Model):
         super().save(*args, **kwargs);
 
 
+class PostView(models.Model):
+    post = models.ForeignKey(
+            Post,
+            on_delete=models.CASCADE,
+            related_name='postviews')
+    ip = models.CharField(max_length=40)
+    session = models.CharField(max_length=40)
+    created_date = models.DateTimeField(default=timezone.localtime)
+
+
 @receiver(pre_delete, sender=Post)
 def post_pre_delete(sender, instance, **kwargs):
     instance.feature_image.delete(save=False)
