@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 from mptt.models import MPTTModel, TreeForeignKey
 from taggit.managers import TaggableManager
@@ -70,3 +72,8 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return '/'.join([self.category.get_url_list[-1], self.slug])
+
+
+@receiver(pre_delete, sender=Post)
+def post_pre_delete(sender, instance, **kwargs):
+    instance.feature_image.delete(save=False)
