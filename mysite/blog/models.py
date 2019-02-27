@@ -48,12 +48,19 @@ class Category(MPTTModel):
         return urls
 
 
+def get_feature_image_path(instance, filename):
+    return 'blog/' + instance.slug + '-' + filename
+
 class Post(models.Model):
     # DATABASE FIELD
     author = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
     title = models.CharField(max_length=75)
     slug = models.SlugField()
-    feature_image = models.ImageField(storage=OverwriteStorage(), blank=True, null=True)
+    feature_image = models.ImageField(
+        storage=OverwriteStorage(),
+        upload_to=get_feature_image_path,
+        blank=True,
+        null=True)
     description = models.TextField(max_length=300, blank=True, null=True)
     content = RichTextUploadingField(blank=True, null=True)
     draft = models.BooleanField(default=True)
