@@ -30,6 +30,18 @@ class Category(MPTTModel):
     def __str__(self):
         return self.name
 
+    def get_url_list(self):
+        """Return a list of urls related to this category"""
+        try:
+            ancestors = self.get_ancestors(include_self=True)
+        except:
+            ancestors = []
+
+        slugs = [ i.slug for i in ancestors ]
+        urls = []
+        for i in range(len(slugs)):
+            urls.append('/'.join(slugs[:i+1]))
+        return urls
 
 class Post(models.Model):
     # DATABASE FIELD
@@ -52,3 +64,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return '/'.join([self.category.get_url_list[-1], self.slug])
