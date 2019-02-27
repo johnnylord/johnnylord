@@ -6,6 +6,8 @@ from mptt.models import MPTTModel, TreeForeignKey
 from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
 
+from .storage import OverwriteStorage
+
 # Create your models here.
 class Category(MPTTModel):
     # DATABASE FIELD
@@ -43,12 +45,13 @@ class Category(MPTTModel):
             urls.append('/'.join(slugs[:i+1]))
         return urls
 
+
 class Post(models.Model):
     # DATABASE FIELD
     author = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
     title = models.CharField(max_length=75)
     slug = models.SlugField()
-    feature_image = models.ImageField(blank=True, null=True)
+    feature_image = models.ImageField(storage=OverwriteStorage(), blank=True, null=True)
     description = models.TextField(max_length=300, blank=True, null=True)
     content = RichTextUploadingField(blank=True, null=True)
     draft = models.BooleanField(default=True)
