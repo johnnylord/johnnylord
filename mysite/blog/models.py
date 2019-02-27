@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from mptt.models import MPTTModel, TreeForeignKey
 from taggit.managers import TaggableManager
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 class Category(MPTTModel):
@@ -37,7 +38,7 @@ class Post(models.Model):
     slug = models.SlugField()
     feature_image = models.ImageField(blank=True, null=True)
     description = models.TextField(max_length=300, blank=True, null=True)
-    content = models.TextField(blank=True, null=True)
+    content = RichTextUploadingField(blank=True, null=True)
     draft = models.BooleanField(default=True)
     create_date = models.DateTimeField(default=timezone.localtime)
     publish_date = models.DateTimeField(blank=True, null=True)
