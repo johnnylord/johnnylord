@@ -1,0 +1,7 @@
+Django==2.0
+greenlet==0.4.15
+msgpack==0.6.1
+neovim==0.3.1
+pynvim==0.3.2
+python-decouple==3.1
+pytz==2018.9
