@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'blog',
+    'mptt',
+    'taggit',
 ]
 
 # REQUEST/RESPONSE MIDDLEWARES
