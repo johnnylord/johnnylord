@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 from mptt.models import MPTTModel, TreeForeignKey
+from taggit.managers import TaggableManager
 
 # Create your models here.
 class Category(MPTTModel):
@@ -40,6 +41,13 @@ class Post(models.Model):
     draft = models.BooleanField(default=True)
     create_date = models.DateTimeField(default=timezone.localtime)
     publish_date = models.DateTimeField(blank=True, null=True)
+    category = TreeForeignKey(
+        'Category',
+        blank=True,
+        null=True,
+        related_name='posts',
+        on_delete=models.CASCADE)
+    tags = TaggableManager(blank=True)
 
     def __str__(self):
         return self.title
