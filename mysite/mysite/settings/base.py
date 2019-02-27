@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'blog',
     'mptt',
     'taggit',
+    'ckeditor',
 ]
 
 # REQUEST/RESPONSE MIDDLEWARES
