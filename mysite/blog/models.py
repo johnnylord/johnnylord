@@ -1,8 +1,12 @@
+from io import BytesIO
+from PIL import Image
+
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from mptt.models import MPTTModel, TreeForeignKey
 from taggit.managers import TaggableManager
@@ -79,6 +83,22 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return '/'.join([self.category.get_url_list[-1], self.slug])
+
+    def save(self, *args, **kwargs):
+        # Resize feature image
+        img = Image.open(BytesIO(self.feature_image.read()))
+        resized_img = img.resize((900, 450))
+        output = BytesIO()
+        resized_img.save(output, format='PNG')
+        output.seek(0)
+        self.feature_image = InMemoryUploadedFile(
+            output,
+            'ImageField',
+            self.feature_image.name,
+            'image/png',
+            len(output.read()),
+            None)
+        super().save(*args, **kwargs);
 
 
 @receiver(pre_delete, sender=Post)
