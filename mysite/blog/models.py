@@ -2,8 +2,33 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from mptt.models import MPTTModel, TreeForeignKey
 
 # Create your models here.
+class Category(MPTTModel):
+    # DATABASE FIELD
+    name = models.CharField(max_length=50, unique=True)
+    parent = TreeForeignKey(
+            'self',
+            blank=True,
+            null=True,
+            related_name='children',
+            on_delete=models.CASCADE)
+    slug = models.SlugField()
+
+    # Meta for MPTT
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
+    # Meta for model instance
+    class Meta:
+        unique_together = (('parent', 'slug'),)
+        verbose_name_plural = 'categories'
+
+    def __str__(self):
+        return self.name
+
+
 class Post(models.Model):
     # DATABASE FIELD
     author = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
