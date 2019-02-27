@@ -108,3 +108,50 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/2.0/ref/contrib/sites/
 # ==============================
 SITE_ID = 1
+
+# CKEDITOR
+# https://github.com/django-ckeditor/django-ckeditor
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "uploads/" # This will be under media root
+
+# https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        'toolbar': [
+            # Utilities
+            ['Source'],
+            ['Find', 'Replace', 'Maximize', 'ShowBlocks'],
+            ['CodeSnippet', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley',
+                'SpecialChar', 'PageBreak', 'Iframe'],
+            '/',
+
+            # Styles
+            ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor'],
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            '/',
+
+            # Typography
+            ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'CreateDiv',
+                'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr',
+                'BidiRtl', 'Link', 'Unlink', 'Anchor'],
+            ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button',
+                'ImageButton', 'HiddenField'],
+            '/',
+
+        ],
+        'extraPlugins': ','.join([
+            'uploadimage', # the upload image feature
+            # your extra plugins here
+            'div',
+            'autolink',
+            'autoembed',
+            'embedsemantic',
+            'autogrow',
+            'codesnippet',
+            'clipboard',
+            'elementspath'
+        ]),
+    }
+}
+
